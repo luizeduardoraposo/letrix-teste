@@ -53,8 +53,6 @@
     <canvas id="freqChart"></canvas>
     <div class="chart-label">Frequência de Letras (sem repetições por palavra)</div>
     <canvas id="uniqueChart"></canvas>
-    <div class="chart-label">Tamanho dos Grupos de Anagramas</div>
-    <canvas id="groupChart"></canvas>
   </div>
   <script>
     async function loadData() {
@@ -62,7 +60,7 @@
       return await response.json();
     }
 
-    function makeBarChart(ctx, labels, data, label, color) {
+    function makeHorizontalBarChart(ctx, labels, data, label, color) {
       return new Chart(ctx, {
         type: 'bar',
         data: {
@@ -76,6 +74,7 @@
           }]
         },
         options: {
+          indexAxis: 'y',
           responsive: true,
           plugins: {
             legend: { display: false },
@@ -84,11 +83,11 @@
           scales: {
             x: {
               ticks: { font: { size: 20 }, color: '#222' },
-              grid: { display: false }
+              grid: { color: '#eee' }
             },
             y: {
               ticks: { font: { size: 20 }, color: '#222' },
-              grid: { color: '#eee' }
+              grid: { display: false }
             }
           }
         }
@@ -99,7 +98,7 @@
       // Frequência de letras (com repetições)
       const freqLabels = Object.keys(data.letterFreq);
       const freqData = Object.values(data.letterFreq);
-      makeBarChart(
+      makeHorizontalBarChart(
         document.getElementById('freqChart').getContext('2d'),
         freqLabels,
         freqData,
@@ -110,23 +109,12 @@
       // Frequência de letras (sem repetições)
       const uniqueLabels = Object.keys(data.letterFreqUnique);
       const uniqueData = Object.values(data.letterFreqUnique);
-      makeBarChart(
+      makeHorizontalBarChart(
         document.getElementById('uniqueChart').getContext('2d'),
         uniqueLabels,
         uniqueData,
         'Frequência Única de Letras',
         'rgba(46, 204, 113, 0.8)'
-      );
-
-      // Tamanho dos grupos de anagramas
-      const groupSizes = data.wordLengthCount.map(g => g.countwords);
-      const groupLabels = data.wordLengthCount.map((g, i) => `Grupo ${i + 1}`);
-      makeBarChart(
-        document.getElementById('groupChart').getContext('2d'),
-        groupLabels,
-        groupSizes,
-        'Quantidade de Palavras por Grupo',
-        'rgba(241, 196, 15, 0.8)'
       );
     });
   </script>
