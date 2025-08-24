@@ -4,21 +4,131 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Graph</title>
-  <link rel="stylesheet" href="graph.css">
+  <title>Gráficos de Anagramas</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 0;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-top: 2rem;
+      color: #333;
+    }
+
+    .chart-container {
+      width: 100vw;
+      max-width: 100vw;
+      padding: 2rem;
+      box-sizing: border-box;
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 500px !important;
+      margin-bottom: 3rem;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .chart-label {
+      font-size: 1.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      color: #444;
+    }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-  <h1>Visualização de Grafo</h1>
-  <div id="graph-container" style="width: 100%; height: 500px;"></div>
-  <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="graph.js"></script>
+  <h1>Gráficos de Anagramas</h1>
+  <div class="chart-container">
+    <div class="chart-label">Frequência de Letras (com repetições)</div>
+    <canvas id="freqChart"></canvas>
+    <div class="chart-label">Frequência de Letras (sem repetições por palavra)</div>
+    <canvas id="uniqueChart"></canvas>
+    <div class="chart-label">Tamanho dos Grupos de Anagramas</div>
+    <canvas id="groupChart"></canvas>
+  </div>
   <script>
-    fetch('graph-data.json')
-      .then(response => response.json())
-      .then(data => {
-        window.renderGraphs(data);
+    async function loadData() {
+      const response = await fetch('graph-data.json');
+      return await response.json();
+    }
+
+    function makeBarChart(ctx, labels, data, label, color) {
+      return new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label,
+            data,
+            backgroundColor: color,
+            borderRadius: 8,
+            maxBarThickness: 40,
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { display: false },
+            title: { display: false }
+          },
+          scales: {
+            x: {
+              ticks: { font: { size: 20 }, color: '#222' },
+              grid: { display: false }
+            },
+            y: {
+              ticks: { font: { size: 20 }, color: '#222' },
+              grid: { color: '#eee' }
+            }
+          }
+        }
       });
+    }
+
+    loadData().then(data => {
+      // Frequência de letras (com repetições)
+      const freqLabels = Object.keys(data.letterFreq);
+      const freqData = Object.values(data.letterFreq);
+      makeBarChart(
+        document.getElementById('freqChart').getContext('2d'),
+        freqLabels,
+        freqData,
+        'Frequência de Letras',
+        'rgba(52, 152, 219, 0.8)'
+      );
+
+      // Frequência de letras (sem repetições)
+      const uniqueLabels = Object.keys(data.letterFreqUnique);
+      const uniqueData = Object.values(data.letterFreqUnique);
+      makeBarChart(
+        document.getElementById('uniqueChart').getContext('2d'),
+        uniqueLabels,
+        uniqueData,
+        'Frequência Única de Letras',
+        'rgba(46, 204, 113, 0.8)'
+      );
+
+      // Tamanho dos grupos de anagramas
+      const groupSizes = data.wordLengthCount.map(g => g.countwords);
+      const groupLabels = data.wordLengthCount.map((g, i) => `Grupo ${i + 1}`);
+      makeBarChart(
+        document.getElementById('groupChart').getContext('2d'),
+        groupLabels,
+        groupSizes,
+        'Quantidade de Palavras por Grupo',
+        'rgba(241, 196, 15, 0.8)'
+      );
+    });
   </script>
 </body>
 
