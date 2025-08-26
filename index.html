@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Tabela Quadrada</title>
   <link rel="stylesheet" href="style.css">
+  <link href="https://unpkg.com/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -24,36 +25,45 @@
 
 
   <!-- Modal de Configurações -->
-  <div id="settings-modal" class="modal hidden">
-    <div class="modal-content">
-      <button class="close-modal" aria-label="Fechar" type="button">&times;</button>
-      <h2>Configurações</h2>
-      <div class="option-group">
-        <h3>Posição da Tabela</h3>
-        <div class="table-position-cards">
-          <div class="position-card" data-pos="left">
+  <div id="settings-modal" class="custom-modal hidden">
+    <div class="modal-content bg-primary text-white border-0 shadow-lg rounded-4 p-4 mx-auto"
+      style="max-width: 400px; width: 100%;">
+      <button class="close-modal btn btn-light position-absolute top-0 end-0 m-2" aria-label="Fechar"
+        type="button">&times;</button>
+      <h2 class="mb-4">Configurações</h2>
+      <div class="option-group mb-4">
+        <h3 class="mb-3">Posição da Tabela</h3>
+        <div class="table-position-cards d-flex gap-3 mb-3">
+          <div
+            class="position-card bg-light text-primary border border-primary rounded-3 px-4 py-2 fw-bold cursor-pointer"
+            data-pos="left">
             <span>Esquerda</span>
           </div>
-          <div class="position-card" data-pos="center">
+          <div
+            class="position-card bg-light text-primary border border-primary rounded-3 px-4 py-2 fw-bold cursor-pointer"
+            data-pos="center">
             <span>Centro</span>
           </div>
-          <div class="position-card" data-pos="right">
+          <div
+            class="position-card bg-light text-primary border border-primary rounded-3 px-4 py-2 fw-bold cursor-pointer"
+            data-pos="right">
             <span>Direita</span>
           </div>
         </div>
       </div>
       <div class="option-group">
-        <h3>Opções de Jogo</h3>
-        <button class="modal-option" type="button">Novo Jogo</button>
-        <button class="modal-option" type="button">Torneio</button>
-        <button class="modal-option" type="button">Ranking</button>
-        <button class="modal-option" type="button">Perfil</button>
+        <h3 class="mb-3">Opções de Jogo</h3>
+        <button class="modal-option btn btn-light text-primary w-100 mb-2 rounded-3" type="button">Novo Jogo</button>
+        <button class="modal-option btn btn-light text-primary w-100 mb-2 rounded-3" type="button">Torneio</button>
+        <button class="modal-option btn btn-light text-primary w-100 mb-2 rounded-3" type="button">Ranking</button>
+        <button class="modal-option btn btn-light text-primary w-100 mb-2 rounded-3" type="button">Perfil</button>
       </div>
     </div>
   </div>
 
   <script src="generator.js"></script>
   <script src="script.js"></script>
+  <script src="https://unpkg.com/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

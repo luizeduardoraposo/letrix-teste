@@ -96,7 +96,7 @@ body {
   }
 }
 
-.modal {
+.custom-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -109,7 +109,7 @@ body {
   z-index: 100;
 }
 
-.modal.hidden {
+.custom-modal.hidden {
   display: none;
 }
 
