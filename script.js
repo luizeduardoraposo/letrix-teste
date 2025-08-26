@@ -1,5 +1,24 @@
 const size = 4; // Altere para o tamanho desejado
 
+// Função para gerar a tabela dinamicamente
+function gerarTabela(size) {
+  const mainTable = document.getElementById('main-table');
+  mainTable.innerHTML = '';
+  for (let i = 0; i < size; i++) {
+    const tr = document.createElement('tr');
+    for (let j = 0; j < size; j++) {
+      const td = document.createElement('td');
+      const span = document.createElement('span');
+      span.className = 'hover-area';
+      td.appendChild(span);
+      tr.appendChild(td);
+    }
+    mainTable.appendChild(tr);
+  }
+}
+
+gerarTabela(size);
+
 let isMouseDown = false;
 const mainTable = document.getElementById('main-table');
 
