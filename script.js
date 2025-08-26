@@ -1,7 +1,6 @@
 // MODAL E CONFIGURAÇÕES
 function setupModalEvents() {
   const settingsBtn = document.getElementById('settings-btn');
-  const settingsBtnMobile = document.getElementById('settings-btn-mobile');
   const settingsModal = document.getElementById('settings-modal');
   const closeModalBtn = settingsModal ? settingsModal.querySelector('.close-modal') : null;
   const positionCards = settingsModal ? settingsModal.querySelectorAll('.position-card') : [];
@@ -13,7 +12,6 @@ function setupModalEvents() {
     settingsModal.classList.add('hidden');
   }
   settingsBtn && settingsBtn.addEventListener('click', openModal);
-  settingsBtnMobile && settingsBtnMobile.addEventListener('click', openModal);
   closeModalBtn && closeModalBtn.addEventListener('click', closeModal);
   settingsModal && settingsModal.addEventListener('click', function (e) {
     if (e.target === settingsModal) closeModal();

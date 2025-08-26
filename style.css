@@ -88,10 +88,6 @@ body {
   }
 
   .settings-btn {
-    display: none;
-  }
-
-  .settings-btn.mobile {
     display: block;
   }
 }
