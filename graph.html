@@ -7,10 +7,11 @@
   <title>Gráficos de Anagramas</title>
   <style>
     body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f8f8f8;
+      font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
+      background: #fff;
       margin: 0;
       padding: 0;
+      color: #f2f2f2;
     }
 
     h1 {
@@ -20,103 +21,47 @@
       color: #333;
     }
 
-    .chart-container {
-      width: 100vw;
-      max-width: 100vw;
-      padding: 2rem;
-      box-sizing: border-box;
-    }
 
-    canvas {
-      width: 100% !important;
-      height: 500px !important;
-      margin-bottom: 3rem;
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    }
 
-    .chart-label {
-      font-size: 1.5rem;
-      text-align: center;
-      margin-bottom: 1rem;
-      color: #444;
-    }
+    /* Gráficos removidos */
   </style>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Chart.js removido -->
 </head>
 
 <body>
-  <h1>Gráficos de Anagramas</h1>
-  <div class="chart-container">
-    <div class="chart-label">Frequência de Letras (com repetições)</div>
-    <canvas id="freqChart"></canvas>
-    <div class="chart-label">Frequência de Letras (sem repetições por palavra)</div>
-    <canvas id="uniqueChart"></canvas>
+  <h1>Grupos de Anagramas</h1>
+  <div style="width:100%; max-width:900px; margin:2rem auto;">
+    <table id="anagramTable" style="width:100%; border-collapse:collapse; background:#fff; color:#222;">
+      <thead>
+        <tr style="background:#eee;">
+          <th style="padding:8px; border:1px solid #ccc;">Palavras</th>
+          <th style="padding:8px; border:1px solid #ccc;">Letras</th>
+          <th style="padding:8px; border:1px solid #ccc;">Quantidade de Palavras</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Preenchido via JS -->
+      </tbody>
+    </table>
   </div>
+
   <script>
-    async function loadData() {
-      const response = await fetch('graph-data.json');
-      return await response.json();
-    }
-
-    function makeHorizontalBarChart(ctx, labels, data, label, color) {
-      return new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label,
-            data,
-            backgroundColor: color,
-            borderRadius: 8,
-            maxBarThickness: 40,
-          }]
-        },
-        options: {
-          indexAxis: 'y',
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: { display: false }
-          },
-          scales: {
-            x: {
-              ticks: { font: { size: 20 }, color: '#222' },
-              grid: { color: '#eee' }
-            },
-            y: {
-              ticks: { font: { size: 20 }, color: '#222' },
-              grid: { display: false }
-            }
-          }
-        }
+    fetch('graph-data.json')
+      .then(response => response.json())
+      .then(data => {
+        const table = document.getElementById('anagramTable').getElementsByTagName('tbody')[0];
+        // Ordena do maior para o menor pelo campo letterscount
+        const sorted = data.wordLengthCount.slice().sort((a, b) => b.letterscount - a.letterscount);
+        sorted.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td style=\"padding:8px; border:1px solid #ccc;\">${item.words}</td>
+            <td style=\"padding:8px; border:1px solid #ccc; text-align:center;\">${item.letterscount}</td>
+            <td style=\"padding:8px; border:1px solid #ccc; text-align:center;\">${item.countwords}</td>
+          `;
+          table.appendChild(row);
+        });
       });
-    }
-
-    loadData().then(data => {
-      // Frequência de letras (com repetições)
-      const freqLabels = Object.keys(data.letterFreq);
-      const freqData = Object.values(data.letterFreq);
-      makeHorizontalBarChart(
-        document.getElementById('freqChart').getContext('2d'),
-        freqLabels,
-        freqData,
-        'Frequência de Letras',
-        'rgba(52, 152, 219, 0.8)'
-      );
-
-      // Frequência de letras (sem repetições)
-      const uniqueLabels = Object.keys(data.letterFreqUnique);
-      const uniqueData = Object.values(data.letterFreqUnique);
-      makeHorizontalBarChart(
-        document.getElementById('uniqueChart').getContext('2d'),
-        uniqueLabels,
-        uniqueData,
-        'Frequência Única de Letras',
-        'rgba(46, 204, 113, 0.8)'
-      );
-    });
   </script>
 </body>
 
