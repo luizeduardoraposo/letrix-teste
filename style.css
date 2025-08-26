@@ -1,13 +1,24 @@
 .hover-area {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 75%;
   height: 75%;
   margin: 5% auto;
+  font-size: 6vw;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  line-height: 1;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
-
 table td.destaque {
-  background: yellow;
+  background: rgb(33, 68, 105);
 }
 
 body {
@@ -24,14 +35,20 @@ table {
   width: min(100vw, 100vh);
   height: min(100vw, 100vh);
   cursor: pointer;
+  table-layout: fixed;
 }
 
 table td {
-  width: 100px;
-  height: 100px;
+  width: 1fr;
+  height: 1fr;
+  min-width: 60px;
+  min-height: 60px;
   border: 2px solid #000;
   border-radius: 5px;
   background: rgb(133, 11, 0);
+  padding: 0;
+  text-align: center;
+  vertical-align: middle;
 }
 
 table tr:first-child td,
