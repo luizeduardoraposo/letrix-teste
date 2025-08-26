@@ -13,11 +13,5 @@ function gerarLetrasAleatorias(quantidade) {
   return letras;
 }
 
-// Preenche automaticamente a tabela com letras aleatórias ao carregar a página
-document.addEventListener('DOMContentLoaded', function () {
-  const spans = document.querySelectorAll('#main-table td .hover-area');
-  const letras = gerarLetrasAleatorias(spans.length);
-  letras.forEach((letra, i) => {
-    if (spans[i]) spans[i].textContent = letra;
-  });
-});
+
+// Função gerarLetrasAleatorias permanece global, sem preenchimento automático

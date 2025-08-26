@@ -1,3 +1,46 @@
+// MODAL E CONFIGURAÇÕES
+function setupModalEvents() {
+  const settingsBtn = document.getElementById('settings-btn');
+  const settingsBtnMobile = document.getElementById('settings-btn-mobile');
+  const settingsModal = document.getElementById('settings-modal');
+  const closeModalBtn = settingsModal ? settingsModal.querySelector('.close-modal') : null;
+  const positionCards = settingsModal ? settingsModal.querySelectorAll('.position-card') : [];
+  const tableSection = document.getElementById('game-section');
+  function openModal() {
+    settingsModal.classList.remove('hidden');
+  }
+  function closeModal() {
+    settingsModal.classList.add('hidden');
+  }
+  settingsBtn && settingsBtn.addEventListener('click', openModal);
+  settingsBtnMobile && settingsBtnMobile.addEventListener('click', openModal);
+  closeModalBtn && closeModalBtn.addEventListener('click', closeModal);
+  settingsModal && settingsModal.addEventListener('click', function (e) {
+    if (e.target === settingsModal) closeModal();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeModal();
+  });
+  // Seleção de posição da tabela
+  positionCards.forEach(card => {
+    card.addEventListener('click', function () {
+      positionCards.forEach(c => c.classList.remove('selected'));
+      card.classList.add('selected');
+      const pos = card.getAttribute('data-pos');
+      tableSection.classList.remove('table-left', 'table-center', 'table-right');
+      tableSection.classList.add('table-' + pos);
+      closeModal();
+    });
+  });
+  // Opções do modal (Novo Jogo, Torneio, Ranking, Perfil)
+  settingsModal && settingsModal.querySelectorAll('.modal-option').forEach(btn => {
+    btn.addEventListener('click', function () {
+      alert('Opção: ' + btn.textContent);
+      closeModal();
+    });
+  });
+}
+setupModalEvents();
 const size = 4; // Altere para o tamanho desejado
 
 // Função para gerar a tabela dinamicamente
@@ -14,6 +57,14 @@ function gerarTabela(size) {
       tr.appendChild(td);
     }
     mainTable.appendChild(tr);
+  }
+  // Preencher letras após criar a tabela
+  if (typeof gerarLetrasAleatorias === 'function') {
+    const spans = mainTable.querySelectorAll('.hover-area');
+    const letras = gerarLetrasAleatorias(spans.length);
+    letras.forEach((letra, i) => {
+      if (spans[i]) spans[i].textContent = letra;
+    });
   }
 }
 
@@ -157,3 +208,18 @@ mainTable.addEventListener('touchend', () => {
   const tds = document.querySelectorAll('#main-table td');
   tds.forEach(td => td.classList.remove('destaque'));
 });
+
+/**
+ * Gera um array de letras minúsculas aleatórias (de 'a' a 'z'), permitindo repetições.
+ * @param {number} quantidade Quantidade de letras a serem geradas.
+ * @returns {string[]} Array com letras sorteadas.
+ */
+function gerarLetrasAleatorias(quantidade) {
+  const letras = [];
+  const alfabeto = 'abcdefghijklmnopqrstuvwxyz';
+  for (let i = 0; i < quantidade; i++) {
+    const indice = Math.floor(Math.random() * alfabeto.length);
+    letras.push(alfabeto[indice]);
+  }
+  return letras;
+}
