@@ -21,14 +21,24 @@ function setupModalEvents() {
   });
   // Seleção de posição da tabela
   positionCards.forEach(card => {
-    card.addEventListener('click', function () {
+    card.onclick = function () {
       positionCards.forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       const pos = card.getAttribute('data-pos');
       tableSection.classList.remove('table-left', 'table-center', 'table-right');
-      tableSection.classList.add('table-' + pos);
-      closeModal();
-    });
+      const settingsBtn = document.getElementById('settings-btn');
+      settingsBtn.classList.remove('gear-left', 'gear-center', 'gear-right');
+      if (pos === 'left') {
+        tableSection.classList.add('table-left');
+        settingsBtn.classList.add('gear-right');
+      } else if (pos === 'right') {
+        tableSection.classList.add('table-right');
+        settingsBtn.classList.add('gear-left');
+      } else {
+        tableSection.classList.add('table-center');
+        settingsBtn.classList.add('gear-left');
+      }
+    };
   });
   // Opções do modal (Novo Jogo, Torneio, Ranking, Perfil)
   settingsModal && settingsModal.querySelectorAll('.modal-option').forEach(btn => {
@@ -38,6 +48,9 @@ function setupModalEvents() {
     });
   });
 }
+
+// Inicializa os eventos do modal ao carregar a página
+document.addEventListener('DOMContentLoaded', setupModalEvents);
 setupModalEvents();
 const size = 4; // Altere para o tamanho desejado
 
