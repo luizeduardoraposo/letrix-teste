@@ -28,12 +28,7 @@ table td {
   color: #fff;
   cursor: pointer;
   user-select: none;
-  line-height: 1.2;
 }
-
-/* Removido bloco de propriedades soltas fora de seletor válido */
-
-/* DESKTOP: sobrescreve estilos para telas maiores */
 
 .hover-area {
   display: flex;
@@ -175,9 +170,6 @@ table td.destaque {
   position: relative;
   transform: none;
 }
-
-/* Alinhamento da tabela */
-/* Alinhamento da tabela */
 .table-left {
   display: flex;
   justify-content: flex-start;
