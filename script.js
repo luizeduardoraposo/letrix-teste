@@ -4,7 +4,7 @@ function setupModalEvents() {
   const settingsModal = document.getElementById('settings-modal');
   const closeModalBtn = settingsModal ? settingsModal.querySelector('.close-modal') : null;
   const positionCards = settingsModal ? settingsModal.querySelectorAll('.position-card') : [];
-  const tableSection = document.getElementById('game-section');
+  const tableSection = document.querySelector('body > div');
   function openModal() {
     settingsModal.classList.remove('hidden');
   }
@@ -227,7 +227,7 @@ mainTable.addEventListener('touchend', () => {
  */
 function gerarLetrasAleatorias(quantidade) {
   const letras = [];
-  const alfabeto = 'abcdefghijklmnopqrstuvwxyz';
+  const alfabeto = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
   for (let i = 0; i < quantidade; i++) {
     const indice = Math.floor(Math.random() * alfabeto.length);
     letras.push(alfabeto[indice]);
